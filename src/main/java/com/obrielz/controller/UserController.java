@@ -1,5 +1,6 @@
 package com.obrielz.controller;
 
+import com.obrielz.exception.UserNotFoundException;
 import com.obrielz.model.User;
 import com.obrielz.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,11 @@ public class UserController {
     @GetMapping("/users")
     List<User> getAllUsers(){
         return userRepository.findAll();
+    }
+
+    @GetMapping("user/{id}")
+    User getUserById(@PathVariable Long id){
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
     }
 }
